@@ -64,6 +64,8 @@ set foldnestmax=5
 nnoremap <space> za
 " сворачиваем код по умолчанию на основе синтаксиса
 set foldmethod=syntax
+" сворачивание в файлах с маркдауном
+let g:vim_markdown_folding_level = 0
 " }}}
 " поведение {{{
 " обновлять свап-файл каждые 10 строк (а не 200, как по умолчанию)
@@ -86,15 +88,19 @@ highlight lCursor guifg=NONE guibg=Cyan cterm=none ctermfg=none ctermbg=214
 " устанавливаем метод шифрования по умолчанию
 set cryptmethod=blowfish2
 " }}}
-" настройка pathogen {{{
-" запускаем pathogen, более удобный способ устанавливать плагины (каждый в отдельном каталоге)
-execute pathogen#infect()
-" автоматически перегружаем конфиг при его сохранении
-nmap <silent> ;v :next $MYVIMRC<CR>
-augroup VimReload
-    autocmd!
-    autocmd BufWritePost  $MYVIMRC  source $MYVIMRC
-augroup END
+" vim-plug {{{
+" подключаем плагины
+call plug#begin('~/.vim-plugged')
+Plug 'plasticboy/vim-markdown'
+Plug 'kien/ctrlp.vim'
+Plug 'jpalardy/vim-slime'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'dhruvasagar/vim-table-mode'
+Plug 'tpope/vim-surround'
+Plug 'godlygeek/tabular'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+call plug#end()
 " }}}
 " настройка slime {{{
 " используем tmux для vim-slime
@@ -114,7 +120,6 @@ let g:NERDTreeWinSize = 20
 "     set undodir=$HOME/.vim_undo
 "     set undofile
 " endif
-
 " Let :w!! gain sudo privileges without closing and reopening vim
 " cmap w!! w !sudo tee % >/dev/null
 
