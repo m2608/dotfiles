@@ -100,6 +100,8 @@ Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 " }}}
 " настройка slime {{{
@@ -113,15 +115,25 @@ nmap <Leader>s <Plug>SlimeParagraphSend
 " устнавливаем ширину колонки NERDTree
 let g:NERDTreeWinSize = 20
 " }}}
-
+" настройка airline {{{
+" используем шрифты powerline
+let g:airline_powerline_fonts = 1
+" тема - zenburn
+let g:airline_theme = 'zenburn'
+let g:airline#extensions#keymap#enabled = 0
+" }}}
+" настройка сохранения файлов undo {{{
 " " файлы для отката изменений будем хранить в отдельном каталоге
 " if has('persistent_undo')
 "     set undolevels=5000
 "     set undodir=$HOME/.vim_undo
 "     set undofile
 " endif
+" }}}
+" переоткрытие файла с sudo {{{
 " Let :w!! gain sudo privileges without closing and reopening vim
 " cmap w!! w !sudo tee % >/dev/null
+" }}}
 
 " modeline: в данном файле будут свернуты блоки между маркерами  {{{ и }}}
 " vim:foldmethod=marker:foldlevel=0

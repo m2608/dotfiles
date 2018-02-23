@@ -1,4 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_cnt =4
 let g:netrw_dirhist_1='/root/DotFiles/.vim/bundle/vim-markdown'
 let g:netrw_dirhist_2='/root/DotFiles/.vim'
+let g:netrw_dirhist_3='/usr/local/lib/python3.6/site-packages/powerline/config_files/themes'
+let g:netrw_dirhist_4='/usr/local/lib/python3.6/site-packages/powerline/config_files/themes/tmux'
