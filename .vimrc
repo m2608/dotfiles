@@ -92,12 +92,12 @@ set cryptmethod=blowfish2
 " подключаем плагины
 call plug#begin('~/.vim-plugged')
 Plug 'plasticboy/vim-markdown'
-Plug 'kien/ctrlp.vim'
 Plug 'jpalardy/vim-slime'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'tpope/vim-surround'
-Plug 'godlygeek/tabular'
+Plug 'https://github.com/godlygeek/tabular'
+Plug 'wincent/command-t'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 "Plug 'vim-airline/vim-airline'
