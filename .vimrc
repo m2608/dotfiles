@@ -1,5 +1,27 @@
+" vim-plug {{{
+" подключаем плагины
+call plug#begin('~/.vim-plugged')
+Plug 'altercation/vim-colors-solarized'
+Plug 'plasticboy/vim-markdown'
+Plug 'jpalardy/vim-slime'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'dhruvasagar/vim-table-mode'
+Plug 'tpope/vim-surround'
+Plug 'https://github.com/godlygeek/tabular'
+Plug 'wincent/command-t'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+call plug#end()
+" }}}
 " внешний вид {{{
 " цветовая схема
+"set background=light
+"" выключаем наклонный текст
+"let g:solarized_italic = 0
+"let g:solarized_bold = 0
+"colorscheme solarized
 colorscheme zenburn
 " подсветка синтаксиса
 syntax on
@@ -74,6 +96,8 @@ set updatecount=10
 set autochdir
 " устанавливаем программу, вызываемую при выполнении команды make (нужно во FreeBSD)
 set makeprg=gmake
+" автодополнение в строке команд
+set wildmenu
 " }}}
 " локализация {{{
 " добавить русскую раскладку (переключение по ctrl+^)
@@ -87,22 +111,6 @@ highlight lCursor guifg=NONE guibg=Cyan cterm=none ctermfg=none ctermbg=214
 " шифрование {{{
 " устанавливаем метод шифрования по умолчанию
 set cryptmethod=blowfish2
-" }}}
-" vim-plug {{{
-" подключаем плагины
-call plug#begin('~/.vim-plugged')
-Plug 'plasticboy/vim-markdown'
-Plug 'jpalardy/vim-slime'
-Plug 'kien/rainbow_parentheses.vim'
-Plug 'dhruvasagar/vim-table-mode'
-Plug 'tpope/vim-surround'
-Plug 'https://github.com/godlygeek/tabular'
-Plug 'wincent/command-t'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
-call plug#end()
 " }}}
 " настройка slime {{{
 " используем tmux для vim-slime
@@ -133,6 +141,25 @@ let g:airline#extensions#keymap#enabled = 0
 " переоткрытие файла с sudo {{{
 " Let :w!! gain sudo privileges without closing and reopening vim
 " cmap w!! w !sudo tee % >/dev/null
+" }}}
+" настройка терминала {{{
+set shell=/bin/tcsh
+" }}}
+" windows-специфичные настройки {{{
+if has("win32")
+    "set guifont=Hack:h12:cRUSSIAN
+    "set guifont=Inconsolata\ LGC:h12:cRUSSIAN
+    "set guifont=InputMono:h12:cRUSSIAN
+    "set guifont=werfProFont:h16:cRUSSIAN
+    "set guifont=sudo:h16:cRUSSIAN
+    set guifont=ibm\ 3270\ narrow:h16:cRUSSIAN
+    set guioptions-=T
+    set guioptions-=r
+    set fenc=utf-8
+    set fileencodings=utf-8,cp1251,koi8-r,cp866
+    let g:printencoding="cp1251"
+    set iskeyword=@,a-z,A-Z,48-57,_,128-175,192-255
+endif
 " }}}
 
 " modeline: в данном файле будут свернуты блоки между маркерами  {{{ и }}}
