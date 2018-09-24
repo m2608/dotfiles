@@ -3,6 +3,7 @@
 call plug#begin('~/.vim-plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'plasticboy/vim-markdown'
+Plug 'nelstrom/vim-markdown-folding'
 Plug 'jpalardy/vim-slime'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'dhruvasagar/vim-table-mode'
@@ -93,7 +94,12 @@ let g:vim_markdown_folding_level = 0
 " обновлять свап-файл каждые 10 строк (а не 200, как по умолчанию)
 set updatecount=10
 " текущий каталог будет автоматически меняться при открытии файла, смене буффера и т.п.
-set autochdir
+"set oautochdir
+" комбинация для открытия файла из текущего каталога
+nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
+" комбинация для смены текущего каталога на каталог, в котором лежит файл из
+" открытого буфера
+nnoremap <Leader>cd :cd %:p:h<CR>:pwd<CR>
 " устанавливаем программу, вызываемую при выполнении команды make (нужно во FreeBSD)
 set makeprg=gmake
 " автодополнение в строке команд
