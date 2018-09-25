@@ -16,6 +16,13 @@ Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 "Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 " }}}
+" определяем операционную систему {{{
+if has("win32")
+    let g:os = "Windows"
+else
+    let g:os = substitute(system("uname"),"\n","","")
+endif
+" }}}
 " внешний вид {{{
 " цветовая схема
 "set background=light
@@ -149,10 +156,14 @@ let g:airline#extensions#keymap#enabled = 0
 " cmap w!! w !sudo tee % >/dev/null
 " }}}
 " настройка терминала {{{
-set shell=/bin/tcsh
+if g:os == "FreeBSD"
+    set shell=/bin/tcsh
+elseif g:os == "Linux"
+    set shell=/bin/bash
+endif
 " }}}
 " windows-специфичные настройки {{{
-if has("win32")
+if g:os == "Windows"
     "set guifont=Hack:h12:cRUSSIAN
     "set guifont=Inconsolata\ LGC:h12:cRUSSIAN
     "set guifont=InputMono:h12:cRUSSIAN
