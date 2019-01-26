@@ -3,7 +3,7 @@
 call plug#begin('~/.vim-plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'plasticboy/vim-markdown'
-Plug 'nelstrom/vim-markdown-folding'
+"Plug 'nelstrom/vim-markdown-folding'
 Plug 'jpalardy/vim-slime'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'dhruvasagar/vim-table-mode'
@@ -87,7 +87,7 @@ nmap <silent> <BS>  :nohlsearch<CR>
 " включить сворачивание
 set foldenable
 " по умолчанию открывать 5 уровней свертки
-set foldlevelstart=5
+set foldlevelstart=1
 " максимальный уровень вложенных сверток
 set foldnestmax=5
 " используем пробел для сворачивания/разворачивания текущего блока
@@ -95,7 +95,7 @@ nnoremap <space> za
 " сворачиваем код по умолчанию на основе синтаксиса
 set foldmethod=syntax
 " сворачивание в файлах с маркдауном
-let g:vim_markdown_folding_level = 0
+let g:markdown_folding = 1
 " }}}
 " поведение {{{
 " обновлять свап-файл каждые 10 строк (а не 200, как по умолчанию)
