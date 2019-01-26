@@ -1,5 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/root/Downloads/cdbackup/05/MATERIA/ABOUT'
-let g:netrw_dirhist_2='/mnt/cargo/data/usbarmory'
-let g:netrw_dirhist_3='/root/.bin'
