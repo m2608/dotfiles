@@ -2,8 +2,8 @@
 " подключаем плагины
 call plug#begin('~/.vim-plugged')
 Plug 'altercation/vim-colors-solarized'
+Plug 'dracula/vim'
 Plug 'plasticboy/vim-markdown'
-"Plug 'nelstrom/vim-markdown-folding'
 Plug 'jpalardy/vim-slime'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'dhruvasagar/vim-table-mode'
@@ -12,8 +12,6 @@ Plug 'https://github.com/godlygeek/tabular'
 Plug 'wincent/command-t'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 " }}}
 " определяем операционную систему {{{
@@ -30,7 +28,8 @@ endif
 "let g:solarized_italic = 0
 "let g:solarized_bold = 0
 "colorscheme solarized
-colorscheme zenburn
+"colorscheme zenburn
+colorscheme dracula
 " подсветка синтаксиса
 syntax on
 " выравнивание кода 
@@ -135,13 +134,6 @@ nmap <Leader>s <Plug>SlimeParagraphSend
 " настройка NERDTree {{{
 " устнавливаем ширину колонки NERDTree
 let g:NERDTreeWinSize = 20
-" }}}
-" настройка airline {{{
-" используем шрифты powerline
-let g:airline_powerline_fonts = 1
-" тема - zenburn
-let g:airline_theme = 'zenburn'
-let g:airline#extensions#keymap#enabled = 0
 " }}}
 " настройка сохранения файлов undo {{{
 " " файлы для отката изменений будем хранить в отдельном каталоге
