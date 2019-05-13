@@ -2,7 +2,7 @@
 " подключаем плагины
 call plug#begin('~/.vim-plugged')
 Plug 'altercation/vim-colors-solarized'
-Plug 'dracula/vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'plasticboy/vim-markdown'
 Plug 'jpalardy/vim-slime'
 Plug 'kien/rainbow_parentheses.vim'
