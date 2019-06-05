@@ -34,11 +34,15 @@ colorscheme dracula
 syntax on
 " выравнивание кода 
 filetype plugin indent on
-" в последних строках файла можно указывать настройки vim для данного файла
-set modeline
-" отключаем выражения для modeline (в целях безопасности, были RCE-уязвимости)
-" в принципе, это значение по умолчанию
-set nomodelineexpr
+if exists('&modelineexpr')
+    " если есть возможность отключения выражений в modeline, отключаем их (это
+    " поведение по умолчанию)
+    set modeline
+    set nomodelineexpr
+else
+    " если такой опции нет, отключаем полностью modeline (в целях безопасности)
+    set nomodeline
+endif
 " показывать номера строк
 set number
 " подсвечивать строку с курсором
