@@ -3,6 +3,7 @@
 call plug#begin('~/.vim-plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'axvr/photon.vim', { 'as' : 'photon' }
 Plug 'plasticboy/vim-markdown'
 Plug 'jpalardy/vim-slime'
 Plug 'kien/rainbow_parentheses.vim'
@@ -29,7 +30,8 @@ endif
 "let g:solarized_bold = 0
 "colorscheme solarized
 "colorscheme zenburn
-colorscheme dracula
+"colorscheme dracula
+colorscheme photon
 " подсветка синтаксиса
 syntax on
 " выравнивание кода 
