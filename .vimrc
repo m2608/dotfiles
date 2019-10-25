@@ -4,12 +4,12 @@ call plug#begin('~/.vim-plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'axvr/photon.vim', { 'as' : 'photon' }
+Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'jpalardy/vim-slime'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'tpope/vim-surround'
-Plug 'https://github.com/godlygeek/tabular'
 Plug 'wincent/command-t'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
@@ -25,7 +25,7 @@ endif
 " внешний вид {{{
 " цветовая схема
 "set background=light
-"" выключаем наклонный текст
+" выключаем наклонный и жирный текст
 "let g:solarized_italic = 0
 "let g:solarized_bold = 0
 "colorscheme solarized
@@ -80,6 +80,12 @@ if &term =~ "xterm" || &term =~ "screen"
     " blinking block
     let &t_EI .= "\<Esc>[1 q"
 endif
+" true color terminal
+if exists('+termguicolors')
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    set termguicolors
+endif
 " }}}
 " поиск {{{
 " показывать найденное в процессе набора строки для поиска
@@ -94,16 +100,11 @@ nmap <silent> <BS>  :nohlsearch<CR>
 " сворачивание кода {{{
 " включить сворачивание
 set foldenable
-" по умолчанию открывать 5 уровней свертки
-set foldlevelstart=1
-" максимальный уровень вложенных сверток
-set foldnestmax=5
 " используем пробел для сворачивания/разворачивания текущего блока
 nnoremap <space> za
-" сворачиваем код по умолчанию на основе синтаксиса
-set foldmethod=syntax
 " сворачивание в файлах с маркдауном
-let g:markdown_folding = 1
+" workaround for insert mode bug: https://github.com/plasticboy/vim-markdown/issues/414
+let g:vim_markdown_folding_style_pythonic = 1
 " }}}
 " поведение {{{
 " обновлять свап-файл каждые 10 строк (а не 200, как по умолчанию)
@@ -165,11 +166,6 @@ endif
 " }}}
 " windows-специфичные настройки {{{
 if g:os == "Windows"
-    "set guifont=Hack:h12:cRUSSIAN
-    "set guifont=Inconsolata\ LGC:h12:cRUSSIAN
-    "set guifont=InputMono:h12:cRUSSIAN
-    "set guifont=werfProFont:h16:cRUSSIAN
-    "set guifont=sudo:h16:cRUSSIAN
     set guifont=ibm\ 3270\ narrow:h16:cRUSSIAN
     set guioptions-=T
     set guioptions-=r
