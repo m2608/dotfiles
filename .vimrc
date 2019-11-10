@@ -3,7 +3,7 @@
 call plug#begin('~/.vim-plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'axvr/photon.vim', { 'as' : 'photon' }
+"Plug 'axvr/photon.vim', { 'as' : 'photon' }
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'jpalardy/vim-slime'
@@ -13,6 +13,7 @@ Plug 'tpope/vim-surround'
 Plug 'wincent/command-t'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+Plug 'tomtom/tcomment_vim'
 call plug#end()
 " }}}
 " определяем операционную систему {{{
@@ -30,8 +31,8 @@ endif
 "let g:solarized_bold = 0
 "colorscheme solarized
 "colorscheme zenburn
-"colorscheme dracula
-colorscheme photon
+colorscheme dracula
+"colorscheme photon
 " подсветка синтаксиса
 syntax on
 " выравнивание кода 
@@ -116,6 +117,16 @@ nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 " комбинация для смены текущего каталога на каталог, в котором лежит файл из
 " открытого буфера
 nnoremap <Leader>cd :cd %:p:h<CR>:pwd<CR>
+" следующее переназначение позволяет оставаться в визуальном режими при
+" интердации выделенного блока с помощью < и >
+vnoremap < <gv
+vnoremap > >gv
+" копирует в буфер обмена от положения курсора до конца строки (по аналогии с
+" командами С и D)
+noremap Y y$
+" сочетания клавишь для режима вставки
+inoremap <C-e> <C-o>$
+inoremap <C-a> <C-o>^
 " устанавливаем программу, вызываемую при выполнении команды make (нужно во FreeBSD)
 set makeprg=gmake
 " автодополнение в строке команд
