@@ -3,9 +3,11 @@
 call plug#begin('~/.vim-plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'dracula/vim', { 'as': 'dracula' }
-"Plug 'axvr/photon.vim', { 'as' : 'photon' }
+Plug 'axvr/photon.vim', { 'as' : 'photon' }
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
+"Plug 'plasticboy/vim-markdown'
+"Plug 'gabrielelana/vim-markdown'
+Plug 'Konfekt/FastFold'
 Plug 'jpalardy/vim-slime'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'dhruvasagar/vim-table-mode'
@@ -14,6 +16,8 @@ Plug 'wincent/command-t'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'tomtom/tcomment_vim'
+Plug 'habamax/vim-asciidoctor'
+Plug 'pelodelfuego/vim-swoop'
 call plug#end()
 " }}}
 " определяем операционную систему {{{
@@ -31,6 +35,8 @@ endif
 "let g:solarized_bold = 0
 "colorscheme solarized
 "colorscheme zenburn
+let g:dracula_bold = 0
+let g:dracula_italic = 0
 colorscheme dracula
 "colorscheme photon
 " подсветка синтаксиса
@@ -92,20 +98,30 @@ endif
 " показывать найденное в процессе набора строки для поиска
 set incsearch 
 " если в строке для поиска нет больших букв - игнорировать регистр
+set ignorecase
 set smartcase 
 " подсвечивать найденное
 set hlsearch
 " забой убирает подсветку найденных фраз
 nmap <silent> <BS>  :nohlsearch<CR>
 " }}}
+" поиск файлов {{{
+" команда :find будет искать файлы также и в подкаталогах
+set path+=**
+" }}}
 " сворачивание кода {{{
 " включить сворачивание
 set foldenable
 " используем пробел для сворачивания/разворачивания текущего блока
 nnoremap <space> za
-" сворачивание в файлах с маркдауном
-" workaround for insert mode bug: https://github.com/plasticboy/vim-markdown/issues/414
-let g:vim_markdown_folding_style_pythonic = 1
+let g:markdown_folding=1
+let g:markdown_foldlevel=0
+function MyFoldText()
+    let line = substitute(getline(v:foldstart),'{'.'{'.'{','','')
+"    let num_lines = (v:foldend - v:foldstart + 1) . ' lines'
+    return line . ' '
+endfunction
+set foldtext=MyFoldText()
 " }}}
 " поведение {{{
 " обновлять свап-файл каждые 10 строк (а не 200, как по умолчанию)
@@ -116,7 +132,9 @@ set updatecount=10
 nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 " комбинация для смены текущего каталога на каталог, в котором лежит файл из
 " открытого буфера
-nnoremap <Leader>cd :cd %:p:h<CR>:pwd<CR>
+nnoremap <Leader>cd :lcd %:p:h<CR>:pwd<CR>
+" хоткей для команды :find
+nnoremap <Leader>f :find 
 " следующее переназначение позволяет оставаться в визуальном режими при
 " интердации выделенного блока с помощью < и >
 vnoremap < <gv
@@ -129,6 +147,8 @@ inoremap <C-e> <C-o>$
 inoremap <C-a> <C-o>^
 " устанавливаем программу, вызываемую при выполнении команды make (нужно во FreeBSD)
 set makeprg=gmake
+" используем ripgrep для поиска по файлам
+set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
 " автодополнение в строке команд
 set wildmenu
 " }}}
@@ -164,16 +184,41 @@ let g:NERDTreeWinSize = 20
 "     set undofile
 " endif
 " }}}
-" переоткрытие файла с sudo {{{
+" сохранение файла с sudo {{{
 " Let :w!! gain sudo privileges without closing and reopening vim
-" cmap w!! w !sudo tee % >/dev/null
+if g:os == "FreeBSD"
+    cmap w!! w !doas tee % >/dev/null
+elseif g:os == "Linux"
+    cmap w!! w !sudo tee % >/dev/null
+endif
 " }}}
 " настройка терминала {{{
 if g:os == "FreeBSD"
-    set shell=/bin/tcsh
+    set shell=/usr/local/bin/bash
 elseif g:os == "Linux"
     set shell=/bin/bash
 endif
+" }}}
+" asciidoc {{{
+let g:asciidoctor_folding = 1
+let g:asciidoctor_fold_options = 1
+let g:asciidoctor_fenced_languages = ['python', 'perl', 'clojure', 'lua', 'sh']
+" Function to create buffer local mappings
+fun! AsciidoctorMappings()
+    nnoremap <buffer> <leader>oo :AsciidoctorOpenRAW<CR>
+    nnoremap <buffer> <leader>op :AsciidoctorOpenPDF<CR>
+    nnoremap <buffer> <leader>oh :AsciidoctorOpenHTML<CR>
+    nnoremap <buffer> <leader>ox :AsciidoctorOpenDOCX<CR>
+    nnoremap <buffer> <leader>ch :Asciidoctor2HTML<CR>
+    nnoremap <buffer> <leader>cp :Asciidoctor2PDF<CR>
+    nnoremap <buffer> <leader>cx :Asciidoctor2DOCX<CR>
+endfun
+
+" Call AsciidoctorMappings for all `*.adoc` and `*.asciidoc` files
+augroup asciidoctor
+    au!
+    au BufEnter *.adoc,*.asciidoc call AsciidoctorMappings()
+augroup END
 " }}}
 " windows-специфичные настройки {{{
 if g:os == "Windows"
