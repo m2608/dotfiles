@@ -18,6 +18,7 @@ Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'tomtom/tcomment_vim'
 Plug 'habamax/vim-asciidoctor'
 Plug 'pelodelfuego/vim-swoop'
+Plug 'hylang/vim-hy'
 call plug#end()
 " }}}
 " определяем операционную систему {{{
@@ -202,7 +203,7 @@ endif
 " asciidoc {{{
 let g:asciidoctor_folding = 1
 let g:asciidoctor_fold_options = 1
-let g:asciidoctor_fenced_languages = ['python', 'perl', 'clojure', 'lua', 'sh']
+let g:asciidoctor_fenced_languages = ['python', 'perl', 'clojure', 'lua', 'sh', 'yaml']
 " Function to create buffer local mappings
 fun! AsciidoctorMappings()
     nnoremap <buffer> <leader>oo :AsciidoctorOpenRAW<CR>
