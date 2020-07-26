@@ -34,12 +34,18 @@ endif
 " выключаем наклонный и жирный текст
 "let g:solarized_italic = 0
 "let g:solarized_bold = 0
-"colorscheme solarized
-"colorscheme zenburn
-let g:dracula_bold = 0
-let g:dracula_italic = 0
-colorscheme dracula
-"colorscheme photon
+"
+if $TERM == "xterm-mono"
+    colorscheme default
+else
+    "colorscheme solarized
+    "colorscheme zenburn
+    let g:dracula_bold = 0
+    let g:dracula_italic = 0
+    colorscheme dracula
+    "colorscheme photon
+endif
+
 " подсветка синтаксиса
 syntax on
 " выравнивание кода 
