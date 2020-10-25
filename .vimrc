@@ -1,25 +1,50 @@
 " vim-plug {{{
 " подключаем плагины
 call plug#begin('~/.vim-plugged')
+" цветовые темы
 Plug 'altercation/vim-colors-solarized'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'axvr/photon.vim', { 'as' : 'photon' }
+" выравнивание теста по разделителю
 Plug 'godlygeek/tabular'
-"Plug 'plasticboy/vim-markdown'
-"Plug 'gabrielelana/vim-markdown'
+" сворачивание кода
 Plug 'Konfekt/FastFold'
+" отправка комманд в окна tmux
 Plug 'jpalardy/vim-slime'
+" радужные скобки
 Plug 'kien/rainbow_parentheses.vim'
+" работа с таблицами
 Plug 'dhruvasagar/vim-table-mode'
+" плагин для удобного изменения тегов, кавычек
 Plug 'tpope/vim-surround'
 Plug 'wincent/command-t'
+" навигация по файлам, проекту
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+" работа с Clojure REPL
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+" комментирование кода
 Plug 'tomtom/tcomment_vim'
+" подсветка синтаксиса и вызов AsciiDoctor
 Plug 'habamax/vim-asciidoctor'
+" поиск и замена в нескольких файлах
 Plug 'pelodelfuego/vim-swoop'
-Plug 'hylang/vim-hy'
+" навигация по коду
+Plug 'preservim/tagbar'
+" сниппеты
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'garbas/vim-snipmate'
+" автодополнение python
+"Plug 'davidhalter/jedi-vim'
+"if has('nvim')
+"    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"else
+"    Plug 'Shougo/deoplete.nvim'
+"    Plug 'roxma/nvim-yarp'
+"    Plug 'roxma/vim-hug-neovim-rpc'
+"endif
 call plug#end()
+"let g:deoplete#enable_at_startup = 1
 " }}}
 " определяем операционную систему {{{
 if has("win32")
@@ -149,9 +174,11 @@ vnoremap > >gv
 " копирует в буфер обмена от положения курсора до конца строки (по аналогии с
 " командами С и D)
 noremap Y y$
-" сочетания клавишь для режима вставки
+" сочетания клавиш для режима вставки
 inoremap <C-e> <C-o>$
 inoremap <C-a> <C-o>^
+" вызов окна для навигации по коду (плагин tagbar)
+nmap <F8> :TagbarToggle<CR>
 " устанавливаем программу, вызываемую при выполнении команды make (нужно во FreeBSD)
 set makeprg=gmake
 " используем ripgrep для поиска по файлам
