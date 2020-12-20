@@ -55,19 +55,24 @@ endif
 " }}}
 " внешний вид {{{
 " цветовая схема
-"set background=light
+set background=dark
 " выключаем наклонный и жирный текст
-"let g:solarized_italic = 0
-"let g:solarized_bold = 0
-"
+" let g:solarized_italic = 0
+" let g:solarized_bold = 0
+" let g:solarized_underline = 0
+" let g:solarized_termcolors=256
+
 if $TERM == "xterm-mono"
     colorscheme default
 else
-    "colorscheme solarized
+    " colorscheme solarized
+    colorscheme manjaro_matcha_dark
     "colorscheme zenburn
-    let g:dracula_bold = 0
-    let g:dracula_italic = 0
-    colorscheme dracula
+    "let g:dracula_bold = 0
+    "let g:dracula_italic = 0
+    " прозрачность фона
+    "let g:dracula_colorterm = 0
+    "colorscheme dracula
     "colorscheme photon
 endif
 
@@ -87,7 +92,7 @@ endif
 " показывать номера строк
 set number
 " подсвечивать строку с курсором
-set cursorline
+"set cursorline
 " показывать парные скобки
 set showmatch
 " Настройка радужных скобок
@@ -198,6 +203,9 @@ highlight lCursor guifg=NONE guibg=Cyan cterm=none ctermfg=none ctermbg=214
 " шифрование {{{
 " устанавливаем метод шифрования по умолчанию
 set cryptmethod=blowfish2
+" }}}
+" настройка ctags {{{
+let g:tagbar_ctags_bin = '/usr/local/bin/uctags'
 " }}}
 " настройка slime {{{
 " используем tmux для vim-slime
