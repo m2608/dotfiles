@@ -1,50 +1,109 @@
 " vim-plug {{{
 " подключаем плагины
 call plug#begin('~/.vim-plugged')
+
 " цветовые темы
 Plug 'altercation/vim-colors-solarized'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'axvr/photon.vim', { 'as' : 'photon' }
+
 " выравнивание теста по разделителю
 Plug 'godlygeek/tabular'
+
 " сворачивание кода
 Plug 'Konfekt/FastFold'
+
 " отправка комманд в окна tmux
 Plug 'jpalardy/vim-slime'
+" используем tmux для vim-slime
+let g:slime_target = "tmux"
+let g:slime_paste_file = "$HOME/.slime_paste"
+xmap <Leader>s <Plug>SlimeRegionSend
+nmap <Leader>s <Plug>SlimeParagraphSend
+
+" python repl
+Plug 'sillybun/vim-repl'
+" окно с repl откроется справа
+let g:repl_position = 3
+let g:repl_program = {'python': ['python'], 'default': ['python']}      
+" при открытии repl не будет автоматически отправлять в него все импорты из
+" файла
+let g:repl_python_auto_import = 0
+" объединяем многострочные строки при отправке в repl
+let g:repl_python_automerge = 1
+nnoremap <leader>r :REPLToggle<Cr>
+" jupyter repl
+" Для настройки сначала генерируем конфигурационные файлы:
+"   jupyter console --generate-config
+"   jupyter qtconsole --generate-config
+" А потом включаем опции в конфигах в каталоге ~/.jupyter
+" Для qtconsole:
+"   c.ConsoleWidget.include_other_output = True
+" Для console:
+"   c.ZMQTerminalInteractiveShell.include_other_output = True
+"Plug 'jupyter-vim/jupyter-vim'
+"
 " радужные скобки
 Plug 'kien/rainbow_parentheses.vim'
+
 " работа с таблицами
 Plug 'dhruvasagar/vim-table-mode'
+
 " плагин для удобного изменения тегов, кавычек
 Plug 'tpope/vim-surround'
-Plug 'wincent/command-t'
+
 " навигация по файлам, проекту
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+" устнавливаем ширину колонки NERDTree
+let g:NERDTreeWinSize = 20
+nnoremap <F2> :NERDTreeToggle<C-m>
+
+Plug 'wincent/command-t'
+
+" навигация по открытым буферам
+Plug 'jlanzarotta/bufexplorer'
+
 " работа с Clojure REPL
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+
 " комментирование кода
 Plug 'tomtom/tcomment_vim'
+
 " подсветка синтаксиса и вызов AsciiDoctor
 Plug 'habamax/vim-asciidoctor'
+
 " поиск и замена в нескольких файлах
 Plug 'pelodelfuego/vim-swoop'
+
 " навигация по коду
 Plug 'preservim/tagbar'
+let g:tagbar_ctags_bin = '/usr/local/bin/uctags'
+" вызов окна для навигации по коду (плагин tagbar)
+nmap <F8> :TagbarToggle<CR>
+
 " сниппеты
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'tomtom/tlib_vim'
-Plug 'garbas/vim-snipmate'
+Plug 'SirVer/ultisnips'
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" синтаксис yaml
+Plug 'stephpy/vim-yaml'
+
+" синтаксис python (больше подсвечивает, чем синтаксис по умолчанию, например,
+" f-строки)
+Plug 'vim-python/python-syntax'
+let g:python_highlight_all = 1
+
 " автодополнение python
-"Plug 'davidhalter/jedi-vim'
-"if has('nvim')
-"    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"else
-"    Plug 'Shougo/deoplete.nvim'
-"    Plug 'roxma/nvim-yarp'
-"    Plug 'roxma/vim-hug-neovim-rpc'
-"endif
+Plug 'davidhalter/jedi-vim'
+" отключаем раздражающее окно с помощью при автодополнении
+autocmd FileType python setlocal completeopt-=preview
+
+" автодополнение с помощью Tab
+Plug 'ervandew/supertab'
+
 call plug#end()
-"let g:deoplete#enable_at_startup = 1
 " }}}
 " определяем операционную систему {{{
 if has("win32")
@@ -66,14 +125,14 @@ if $TERM == "xterm-mono"
     colorscheme default
 else
     " colorscheme solarized
-    colorscheme manjaro_matcha_dark
+    "colorscheme manjaro_matcha_dark
     "colorscheme zenburn
     "let g:dracula_bold = 0
     "let g:dracula_italic = 0
     " прозрачность фона
     "let g:dracula_colorterm = 0
     "colorscheme dracula
-    "colorscheme photon
+    colorscheme photon
 endif
 
 " подсветка синтаксиса
@@ -92,7 +151,7 @@ endif
 " показывать номера строк
 set number
 " подсвечивать строку с курсором
-"set cursorline
+set cursorline
 " показывать парные скобки
 set showmatch
 " Настройка радужных скобок
@@ -182,10 +241,21 @@ noremap Y y$
 " сочетания клавиш для режима вставки
 inoremap <C-e> <C-o>$
 inoremap <C-a> <C-o>^
-" вызов окна для навигации по коду (плагин tagbar)
-nmap <F8> :TagbarToggle<CR>
+" поиск слова под курсором
+"nnoremap <F3> yiw/<C-r>0
+nnoremap <F3> yiw:vimgrep /<C-r>0/ **/*
+" переход между окнами
+nnoremap <Tab> <C-w>w
+nnoremap <S-Tab> <C-w>W
 " устанавливаем программу, вызываемую при выполнении команды make (нужно во FreeBSD)
-set makeprg=gmake
+if g:os == "FreeBSD"
+    set makeprg=gmake
+endif
+" для markdown команда будет преобразовывать файл с помощью pandoc
+augroup markdown_pandoc
+    autocmd!
+    autocmd FileType markdown nnoremap <buffer><nowait><silent> <F9> :<c-u>call system('pandoc -f markdown -t html5 --toc -s '.expand('%:p').' -o '.expand('%:p:r').'.html && xdg-open '.expand('%:p:r').'.html')<cr>
+augroup END
 " используем ripgrep для поиска по файлам
 set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
 " автодополнение в строке команд
@@ -193,7 +263,7 @@ set wildmenu
 " }}}
 " локализация {{{
 " добавить русскую раскладку (переключение по ctrl+^)
-set keymap=russian-jcukenwin
+set keymap=russian-jcukenwin2
 " использовать ее по умолчанию при запуске vim
 set iminsert=0
 set imsearch=0
@@ -203,20 +273,6 @@ highlight lCursor guifg=NONE guibg=Cyan cterm=none ctermfg=none ctermbg=214
 " шифрование {{{
 " устанавливаем метод шифрования по умолчанию
 set cryptmethod=blowfish2
-" }}}
-" настройка ctags {{{
-let g:tagbar_ctags_bin = '/usr/local/bin/uctags'
-" }}}
-" настройка slime {{{
-" используем tmux для vim-slime
-let g:slime_target = "tmux"
-let g:slime_paste_file = "$HOME/.slime_paste"
-xmap <Leader>s <Plug>SlimeRegionSend
-nmap <Leader>s <Plug>SlimeParagraphSend
-" }}}
-" настройка NERDTree {{{
-" устнавливаем ширину колонки NERDTree
-let g:NERDTreeWinSize = 20
 " }}}
 " настройка сохранения файлов undo {{{
 " " файлы для отката изменений будем хранить в отдельном каталоге
