@@ -6,6 +6,7 @@ call plug#begin('~/.vim-plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'axvr/photon.vim', { 'as' : 'photon' }
+Plug 'morhetz/gruvbox'
 
 " выравнивание теста по разделителю
 Plug 'godlygeek/tabular'
@@ -132,7 +133,8 @@ else
     " прозрачность фона
     "let g:dracula_colorterm = 0
     "colorscheme dracula
-    colorscheme photon
+    "colorscheme photon
+    colorscheme gruvbox
 endif
 
 " подсветка синтаксиса
@@ -241,8 +243,16 @@ noremap Y y$
 " сочетания клавиш для режима вставки
 inoremap <C-e> <C-o>$
 inoremap <C-a> <C-o>^
-" поиск слова под курсором
-"nnoremap <F3> yiw/<C-r>0
+" для режима команд
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <M-b> <S-Left>
+cnoremap <M-f> <S-Right>
+" поиск слова под курсором по исходникам
 nnoremap <F3> yiw:vimgrep /<C-r>0/ **/*
 " переход между окнами
 nnoremap <Tab> <C-w>w
