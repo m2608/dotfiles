@@ -3,7 +3,7 @@
 call plug#begin('~/.vim-plugged')
 
 " цветовые темы
-Plug 'altercation/vim-colors-solarized'
+"Plug 'altercation/vim-colors-solarized'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'axvr/photon.vim', { 'as' : 'photon' }
 Plug 'morhetz/gruvbox'
@@ -43,7 +43,16 @@ nnoremap <leader>r :REPLToggle<Cr>
 " Для console:
 "   c.ZMQTerminalInteractiveShell.include_other_output = True
 "Plug 'jupyter-vim/jupyter-vim'
-"
+
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+let g:pymode_options_max_line_length = 120
+
+" автодополнение с помощью Tab
+Plug 'ervandew/supertab'
+
+" Работа с git
+Plug 'tpope/vim-fugitive'
+
 " радужные скобки
 Plug 'kien/rainbow_parentheses.vim'
 
@@ -58,8 +67,6 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 " устнавливаем ширину колонки NERDTree
 let g:NERDTreeWinSize = 20
 nnoremap <F2> :NERDTreeToggle<C-m>
-
-Plug 'wincent/command-t'
 
 " навигация по открытым буферам
 Plug 'jlanzarotta/bufexplorer'
@@ -91,19 +98,6 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " синтаксис yaml
 Plug 'stephpy/vim-yaml'
 
-" синтаксис python (больше подсвечивает, чем синтаксис по умолчанию, например,
-" f-строки)
-Plug 'vim-python/python-syntax'
-let g:python_highlight_all = 1
-
-" автодополнение python
-Plug 'davidhalter/jedi-vim'
-" отключаем раздражающее окно с помощью при автодополнении
-autocmd FileType python setlocal completeopt-=preview
-
-" автодополнение с помощью Tab
-Plug 'ervandew/supertab'
-
 call plug#end()
 " }}}
 " определяем операционную систему {{{
@@ -113,25 +107,19 @@ else
     let g:os = substitute(system("uname"),"\n","","")
 endif
 " }}}
+"
 " внешний вид {{{
 " цветовая схема
 set background=dark
 " выключаем наклонный и жирный текст
 " let g:solarized_italic = 0
 " let g:solarized_bold = 0
-" let g:solarized_underline = 0
-" let g:solarized_termcolors=256
 
 if $TERM == "xterm-mono"
     colorscheme default
 else
-    " colorscheme solarized
-    "colorscheme manjaro_matcha_dark
-    "colorscheme zenburn
-    "let g:dracula_bold = 0
-    "let g:dracula_italic = 0
-    " прозрачность фона
-    "let g:dracula_colorterm = 0
+    let g:dracula_bold = 0
+    let g:dracula_italic = 0
     "colorscheme dracula
     "colorscheme photon
     colorscheme gruvbox
@@ -214,7 +202,7 @@ set foldenable
 nnoremap <space> za
 let g:markdown_folding=1
 let g:markdown_foldlevel=0
-function MyFoldText()
+function! MyFoldText()
     let line = substitute(getline(v:foldstart),'{'.'{'.'{','','')
 "    let num_lines = (v:foldend - v:foldstart + 1) . ' lines'
     return line . ' '
@@ -243,7 +231,7 @@ noremap Y y$
 " сочетания клавиш для режима вставки
 inoremap <C-e> <C-o>$
 inoremap <C-a> <C-o>^
-" для режима команд
+" сочетания клавиш для режима команд
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-p> <Up>
@@ -270,6 +258,8 @@ augroup END
 set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
 " автодополнение в строке команд
 set wildmenu
+" отступы для javascript
+autocmd FileType javascript setlocal ts=3 sts=3 sw=3
 " }}}
 " локализация {{{
 " добавить русскую раскладку (переключение по ctrl+^)
@@ -299,6 +289,16 @@ if g:os == "FreeBSD"
 elseif g:os == "Linux"
     cmap w!! w !sudo tee % >/dev/null
 endif
+" }}}
+" команды {{{
+command! -range URLencode :<line1>,<line2>!python3 -c "import sys; from urllib.parse import quote; print(quote(sys.stdin.read().strip()));"
+command! -range URLdecode :<line1>,<line2>!python3 -c "import sys; from urllib.parse import unquote; print(unquote(sys.stdin.read().strip()));"
+command! -range B64encode :<line1>,<line2>!python3 -c "import sys; from base64 import b64encode; print(b64encode(sys.stdin.read().strip().encode('utf-8')).decode('utf-8'));"
+command! -range B64decode :<line1>,<line2>!python3 -c "import sys; from base64 import b64decode; print(b64decode(sys.stdin.read().strip().encode('utf-8')).decode('utf-8'));"
+command! -range B64URLencode :<line1>,<line2>!python3 -c "import sys; from urllib.parse import quote; from base64 import b64encode; print(quote(b64encode(sys.stdin.read().strip().encode('utf-8')).decode('utf-8')));"
+command! -range URLB64decode :<line1>,<line2>!python3 -c "import sys; from urllib.parse import unquote; from base64 import b64decode; print(b64decode(unquote(sys.stdin.read().strip()).encode('utf-8')).decode('utf-8'));"
+noremap <leader>ue :URLencode<CR>
+noremap <leader>ud :URLdecode<CR>
 " }}}
 " настройка терминала {{{
 if g:os == "FreeBSD"
